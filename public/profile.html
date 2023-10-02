@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil de l'utilisateur</title>
+    <link rel="stylesheet" href="Semantic-UI-CSS-master/semantic.min.css">
+    <style>
+        /* style.css */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        header h1 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-info label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .profile-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .profile-info .user-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-info .user-details .user-name {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .profile-info .user-details .stats {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .upload-section, .comics-section {
+            margin-bottom: 40px;
+            display: none; /* Cacher la section de publication par défaut */
+        }
+
+        .upload-section h2, .comics-section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        #publish-button:checked ~ .upload-section {
+            display: block; /* Afficher la section de publication lorsque le bouton est coché */
+        }
+
+        button[type="submit"] {
+            background-color: #3897f0;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comics-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .comic-card {
+            background-color: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .comic-card img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        .ui.menu {
+            border-radius: 0;
+            margin: 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .ui.menu .item {
+            text-align: center;
+            padding: 10px 0;
+            width: 33.33%;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ui.menu .item i {
+            font-size: 24px;
+        }
+    </style>
+
+
+
+
+
+
+
+
+
+    <style>
+        /* Styles pour les cartes de livres (comic-card) */
+        .comic-card {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 20px;
+            
+            padding: 10px;
+        }
+
+        .ui.grid.cards {
+           
+            
+        }
+    
+        .comic-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+    
+        .comic-card img {
+            max-width: 100%;
+            height: auto;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+    
+        .comic-card a {
+            display: inline-block;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+    
+        .comic-card a:hover {
+            background-color: #0056b3;
+        }
+    
+        /* Styles pour la div qui contient les cartes de livres (books-grid) */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Vous pouvez ajuster le nombre de colonnes ici */
+            gap: 20px;
+        }
+
+        
+    
+        /* Ajoutez d'autres styles personnalisés au besoin */
+    </style>
+    
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</head>
+<body>
+    <!-- Contenu du profil de l'utilisateur -->
+    <div class="ui container">
+        <header>
+            <h1 class="ui header">Profil de l'utilisateur</h1>
+        </header>
+
+        <!-- Informations de profil -->
+       <!-- Informations de profil -->
+            <!-- Informations de profil -->
+         <!-- Informations de profil -->
+    <!-- Informations de profil -->
+    <div class="profile-info">
+        <div id="profile-pic-container" class="profile-pic-container"></div>
+        <div class="user-details">
+            <div id="user-name" class="user-name"></div>
+          
+        </div>
+        <button id="change-profile-pic-button" class="ui button">
+            Changer de photo de profil
+        </button>
+
+
+        <form id="profile-pic-form" enctype="multipart/form-data" style="display: none;">
+            <div class="field">
+                <label for="newProfilePic">Sélectionner une nouvelle photo de profil :</label>
+                <input type="file" id="newProfilePic" name="newProfilePic" accept=".jpg, .jpeg, .png">
+            </div>
+            <button type="submit" class="ui button primary">Télécharger</button>
+        </form>
+        
+        
+    </div>
+    
+    
+
+
+      <!-- Bouton de déconnexion -->
+      <button id="logout-button" class="ui button primary">
+        <i class="sign-out icon"></i> Se déconnecter
+    </button>
+
+
+<!-- Bouton pour activer la section de connexion -->
+<button id="login-button" class="ui button primary" >
+    <i class="fas fa-key"></i> Se connecter
+</button>
+
+  
+
+
+        <!-- Bouton pour activer la section de publication -->
+        <input type="checkbox" id="publish-button" style="display: none;">
+        <label for="publish-button" class="ui button primary">
+            <i class="pencil icon"></i> Publier un livre
+        </label>
+
+        <!-- Section de publication -->
+        <div class="upload-section">
+            <br>
+            <h2 class="ui header">Vas-y poste le tien toi aussi</h2>
+            <form class="ui form" id="publish-form" enctype="multipart/form-data">
+                <div class="field">
+                    <label for="title">Titre du livre</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="field">
+                    <label for="author">Nom de l'auteur</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+        
+                <div class="field">
+                    <label for="pages">Sélectionner les pages (maximum 10, plusieurs fichiers autorisés)</label>
+                    <input type="file" id="pages" name="pages" accept=".jpg, .jpeg, .png" multiple required>
+                </div>
+        
+                <div class="field">
+                    <label for="coverImage">Sélectionner une image de couverture</label>
+                    <input type="file" id="coverImage" name="coverImage" accept=".jpg, .jpeg, .png" required>
+                </div>
+                <div class="field">
+                    <label for="tags">Tags (séparés par des virgules)</label>
+                    <input type="text" id="tags" name="tags" required>
+                </div>
+                <div class="field">
+                    <label for="category">Catégorie</label>
+                    <select id="category" name="category" required>
+                        <option value="romance">Romance</option>
+                        <option value="fantasy">Fantasy</option>
+                        <option value="scienceFiction">Science-fiction</option>
+                        <!-- Ajoutez d'autres catégories ici -->
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="description">Description du livre</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <button class="ui button primary" type="submit">Publier</button>
+        
+                <div id="success-message" class="ui message success" style="display: none;">
+                    <i class="close icon"></i>
+                    <div class="header">
+                        Livre publié avec succès !
+                    </div>
+                </div>
+            </form>
+        </div>
+
+      
+    
+    
+    </div>
+
+
+
+
+
+
+
+    <div class="user-books">
+        <h2>Mes Oeuvres</h2>
+        <div class="books-grid">
+            <!-- Les livres seront affichés ici -->
+        </div>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Barre de navigation en bas -->
+  <div class="ui menu">
+    <a href="index.html" class="item">
+        <i class="home icon"></i>
+        Accueil
+    </a>
+    <a href="BD.html" class="item">
+        <i class="book icon"></i>
+        Livres
+    </a>
+    <a href="profile.html" class="item">
+        <i class="user icon"></i>
+        Profil
+
+
+    </a>
+</div>
+
+
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const changeProfilePicButton = document.getElementById('change-profile-pic-button');
+        const profilePicForm = document.getElementById('profile-pic-form');
+    
+        // Gérer l'affichage du formulaire lors du clic sur le bouton
+        changeProfilePicButton.addEventListener('click', function () {
+            profilePicForm.style.display = 'block';
+        });
+    });
+    
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const profilePicForm = document.getElementById('profile-pic-form');
+    
+        profilePicForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Empêche la soumission par défaut du formulaire
+    
+            const formData = new FormData(profilePicForm);
+    
+            // Envoi des données du formulaire au serveur via une requête fetch
+            fetch('/api/upload-profile-pic', {
+                method: 'POST',
+                body: formData,
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    // Traitez la réponse du serveur ici (par exemple, mettez à jour la nouvelle photo de profil)
+                    console.log(data);
+    
+                    // Cachez à nouveau le formulaire après la soumission
+                    profilePicForm.style.display = 'none';
+    
+                    // Rechargez la page ou mettez à jour l'affichage de la photo de profil avec la nouvelle image
+                    // (Cela dépend de la façon dont vous gérez la mise à jour de la photo de profil côté client)
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la requête fetch :', error);
+                    // Gérez les erreurs ou affichez un message d'erreur à l'utilisateur
+                });
+        });
+    });
+    
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Récupérez l'ID de l'utilisateur depuis les données de l'utilisateur
+        fetch('/api/userdata')
+            .then(response => response.json())
+            .then(userData => {
+                const userId = userData.id;
+    
+                // Récupérez l'élément div qui contiendra la photo de profil
+                const profilePicContainer = document.getElementById('profile-pic-container');
+    
+                // Créez un élément <img> pour afficher la photo de profil
+                const profilePic = document.createElement('img');
+                profilePic.src = `/api/userprofilepic/${userId}`;
+                profilePic.alt = 'Photo de profil';
+    
+                // Ajoutez la photo de profil à la div
+                profilePicContainer.appendChild(profilePic);
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
+            });
+    });
+    
+      
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Vérifiez si l'utilisateur est connecté en consultant le cookie "isLoggedIn"
+        const isLoggedIn = document.cookie.includes('isLoggedIn=true');
+    
+        if (isLoggedIn) {
+            // Utilisateur connecté, récupérez les données de l'utilisateur
+            fetch('/api/userdata')
+                .then((response) => response.json())
+                .then((userData) => {
+                    // Mettez à jour la page avec les données de l'utilisateur
+                    console.log('Données de l\'utilisateur :', userData);
+                    document.getElementById('user-name').textContent = userData.username;
+                    document.getElementById('profile-pic').src = `/userpics/${userData.profilePic}`;
+                    
+                    // Ajoutez d'autres mises à jour d'éléments HTML ici
+    
+                    // Vérifiez si le chemin de l'image de profil est correct
+                    console.log('Chemin de l\'image de profil :', `/userpics/${userData.profilePic}`);
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
+                });
+        }
+    });
+    
+</script>
+
+
+
+
+
+<!-- Dans la section <script> de votre page HTML -->
+    <script>
+        <!-- Dans votre code JavaScript côté client pour afficher les livres -->
+        document.addEventListener('DOMContentLoaded', function () {
+          // Fonction pour afficher les livres de l'utilisateur
+          function displayUserBooks() {
+            // Faites une requête au serveur pour récupérer les livres de l'utilisateur connecté
+            fetch('/api/userbooks')
+              .then((response) => response.json())
+              .then((userBooks) => {
+                const booksGrid = document.querySelector('.books-grid');
+                booksGrid.innerHTML = ''; // Effacez le contenu actuel de la grille
+        
+                // Parcourez les livres et créez des éléments HTML pour les afficher
+                userBooks.forEach((book) => {
+                  const bookCard = document.createElement('div');
+                  bookCard.className = 'comic-card';
+        
+                  // Ajoutez le contenu du livre, y compris le chemin de l'image depuis le JSON
+                  const bookImage = document.createElement('img');
+                  bookImage.src = book.coverImage; // Utilisez le chemin depuis le JSON
+                  bookImage.alt = book.title; // Assurez-vous d'avoir la propriété "title" dans les données du livre
+                    
+                
+
+                  const bookTitle = document.createElement('h1');
+                  bookTitle.textContent = book.title;
+
+
+                  const bookLikes = document.createElement('p');
+
+                  bookLikes.textContent = `like : ${book.likes}`; 
+        
+                  const bookAuthor = document.createElement('p');
+                  bookAuthor.textContent = `Auteur : ${book.author}`;
+                  
+
+                  
+               // ...
+// ...
+// ...
+// ...
+// Créez le bouton "Lire" pour chaque livre
+
+
+
+const readButton = document.createElement('button');
+readButton.textContent = 'Lire';
+readButton.classList.add('read-button');
+readButton.className = 'ui button primary';
+
+// Récupérez le nom du fichier PDF sans le préfixe "pdf/pdf/"
+const pdfFileName = book.pdfPath.replace('/api/userbooks/pdf/', '');
+
+// Ajoutez un attribut "data-pdf-file" contenant le chemin complet du fichier PDF
+readButton.setAttribute('data-pdf-file', pdfFileName);
+
+// Ajoutez un gestionnaire d'événements au bouton "Lire"
+readButton.addEventListener('click', function () {
+    // Récupérez le chemin du fichier PDF depuis l'attribut "data-pdf-file"
+    const pdfPath = readButton.getAttribute('data-pdf-file');
+
+    // Redirigez l'utilisateur vers la page de lecture du PDF avec le chemin correct
+    window.location.href = `read.html?pdf=${pdfPath}.pdf`;
+});
+
+
+
+
+// Ajoutez ces éléments à la carte du livre
+bookCard.appendChild(bookImage);
+bookCard.appendChild(bookTitle);
+
+
+bookCard.appendChild(bookAuthor);
+
+bookCard.appendChild(bookLikes);
+
+bookCard.appendChild(readButton);
+// ...
+
+
+
+
+        
+                  // Ajoutez la carte du livre à la grille
+                  booksGrid.appendChild(bookCard);
+                });
+              })
+              .catch((error) => {
+                console.error('Erreur lors de la récupération des livres de l\'utilisateur :', error);
+              });
+          }
+        
+          // Appelez la fonction pour afficher les livres de l'utilisateur connecté
+          displayUserBooks();
+        });
+        
+        </script>
+        
+
+
+<script>
+    // JavaScript pour gérer la redirection vers auth.html si l'utilisateur n'est pas connecté
+    document.addEventListener('DOMContentLoaded', function () {
+        const publishButton = document.getElementById('publish-button');
+  
+        // Gérer l'affichage de la section de publication
+        const isLoggedIn = document.cookie.includes('isLoggedIn=true');
+        if (!isLoggedIn) {
+            // Utilisateur non connecté : rediriger vers la page auth.html si la section de publication est activée
+            publishButton.addEventListener('change', function () {
+                if (publishButton.checked) {
+                    window.location.href = 'auth.html';
+                }
+            });
+        }
+    });
+</script>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const publishForm = document.getElementById('publish-form');
+        const successMessage = document.getElementById('success-message');
+
+        publishForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Empêche la soumission par défaut du formulaire
+
+            const formData = new FormData(publishForm);
+            const pagesInput = document.getElementById('pages');
+            const selectedPages = pagesInput.files;
+
+            if (selectedPages.length > 10) {
+                alert('Maximum 10 pages autorisées.');
+                return;
+            }
+
+            // Envoi des données du formulaire au serveur via une requête fetch
+            fetch('/api/publish', {
+                method: 'POST',
+                body: formData,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                // Traitez la réponse du serveur ici
+                console.log(data);
+
+                // Affichez un message de succès
+                successMessage.style.display = 'block';
+
+                // Réinitialisez les champs du formulaire
+                publishForm.reset();
+            })
+            .catch((error) => {
+                console.error('Erreur lors de la requête fetch :', error);
+                // Gérez les erreurs ou affichez un message d'erreur à l'utilisateur
+            });
+        });
+    });
+</script>
+
+
+<script>
+    // JavaScript pour gérer la déconnexion de l'utilisateur
+    document.addEventListener('DOMContentLoaded', function () {
+      const logoutButton = document.getElementById('logout-button');
+  
+      // Gérer la déconnexion lorsque le bouton "Se déconnecter" est cliqué
+      logoutButton.addEventListener('click', function () {
+        // Envoyer une requête POST au serveur pour signaler la déconnexion
+        fetch('/logout', {
+          method: 'POST',
+        })
+          .then((response) => {
+            if (response.ok) {
+              // Rediriger vers la page d'accueil lorsque la déconnexion est réussie
+              window.location.href = 'index.html';
+            } else {
+              console.error('Erreur lors de la déconnexion');
+            }
+          })
+          .catch((error) => {
+            console.error('Erreur lors de la déconnexion :', error);
+          });
+      });
+    });
+  </script>
+  
+<script>
+// JavaScript pour gérer l'affichage en fonction de l'état de connexion
+document.addEventListener('DOMContentLoaded', function () {
+    const isLoggedIn = document.cookie.includes('isLoggedIn=true');
+  
+    // Sélectionnez les éléments que vous souhaitez afficher ou masquer
+    const logoutButton = document.getElementById('logout-button');
+    const profilePic = document.getElementById('profile-pic');
+    const loginButton = document.getElementById('login-button'); // Sélectionnez le bouton de connexion
+  
+    if (isLoggedIn) {
+      // Utilisateur connecté : afficher le bouton de déconnexion et les données de profil
+      logoutButton.style.display = 'block';
+      profilePic.style.display = 'block';
+  
+      // Masquer le bouton de connexion
+      loginButton.style.display = 'none';
+    } else {
+      // Utilisateur non connecté : masquer le bouton de déconnexion et les données de profil
+      logoutButton.style.display = 'none';
+      profilePic.style.display = 'none';
+  
+      // Afficher le bouton de connexion
+      loginButton.style.display = 'block';
+    }
+
+    
+  
+    // Ajoutez ici d'autres logiques en fonction de l'état de connexion
+  });
+  
+  
+  </script>
+  
+  <script>
+    // JavaScript pour gérer la redirection vers auth.html
+    document.addEventListener('DOMContentLoaded', function () {
+        const loginButton = document.getElementById('login-button');
+
+        // Gérer la redirection lorsque le bouton "Se connecter" est cliqué
+        loginButton.addEventListener('click', function () {
+            // Rediriger vers la page auth.html
+            window.location.href = 'auth.html';
+        });
+    });
+</script>
+
+
+
+<script>
+    // JavaScript pour gérer l'affichage des données de l'utilisateur
+ document.addEventListener('DOMContentLoaded', function () {
+     // Vérifiez si l'utilisateur est connecté en consultant le cookie "isLoggedIn"
+     const isLoggedIn = document.cookie.includes('isLoggedIn=true');
+ 
+     if (isLoggedIn) {
+         // Utilisateur connecté, récupérez les données de l'utilisateur
+         fetch('/api/userdata')
+             .then((response) => response.json())
+             .then((userData) => {
+                 // Mettez à jour la page avec les données de l'utilisateur
+                 document.getElementById('user-name').textContent = userData.username;
+                 document.getElementById('profile-pic').src = `/userpics/${userData.profilePic}`;
+                 
+                 // Ajoutez d'autres mises à jour d'éléments HTML ici
+ 
+             })
+             .catch((error) => {
+                 console.error('Erreur lors de la récupération des données de l\'utilisateur :', error);
+             });
+     }
+ });
+ </script>
+
+
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="Semantic-UI-CSS-master/semantic.min.js"></script>
+</body>
+</html>

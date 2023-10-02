@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ma Bibliothèque de Livres</title>
+    <link rel="stylesheet" href="Semantic-UI-CSS-master/semantic.min.css">
+    <style>
+        /* Styles CSS personnalisés */
+        body {
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ui.menu {
+            border-radius: 0;
+            margin: 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+        .ui.menu .item {
+            text-align: center;
+            padding: 10px 0;
+            width: 33.33%;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .ui.menu .item i {
+            font-size: 24px;
+        }
+        .ui.container {
+            padding: 20px;
+            padding-bottom: 60px; /* Pour éviter que le contenu soit masqué par la barre de navigation en bas */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ui.grid.cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            border: none;
+            margin: 20px;
+            background: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card .image {
+            width: 100%;
+            max-height: 300px;
+            overflow: hidden;
+            border-radius: 4px 4px 0 0;
+        }
+        .card .image img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+        .card .content {
+            padding: 20px;
+            text-align: center;
+        }
+        .card .header {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .card .author {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .card .description {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .extra.content {
+            display: flex;
+            justify-content: center;
+        }
+        .extra.content .ui.button.primary {
+            margin-top: 10px;
+        }
+        /* Ajoutez vos propres styles ici */
+    </style>
+</head>
+<body>
+    <!-- Contenu principal -->
+    <div class="ui container">
+        <h1 class="ui header">Bienvenue dans Mchoro</h1>
+        <h2> la toute première platforme de manga,BD,comics en ligne , made in congo </h2> </h2>
+        <p>Explorez et lisez une variété de livres passionnants.</p>
+  
+        <div class="ui grid cards" id="book-list"></div>
+    </div>
+
+    <!-- Barre de navigation en bas -->
+    <div class="ui menu">
+        <a href="index.html" class="item">
+            <i class="home icon"></i>
+            Accueil
+        </a>
+        <a href="BD.html" class="item">
+            <i class="book icon"></i>
+            Livres
+        </a>
+        <a href="profile.html" class="item">
+            <i class="user icon"></i>
+            Profil
+        </a>
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        function displayBooks() {
+          // Faites une requête pour obtenir le chemin du fichier likes.json du serveur
+          fetch('/api/likesfilepath')
+            .then((response) => response.json())
+            .then((data) => {
+              const likesFilePath = data.likesFilePath;
+    
+              // Utilisez maintenant likesFilePath pour effectuer vos opérations avec le fichier likes.json
+              // Par exemple, lorsque vous cliquez sur le bouton "like", vous pouvez envoyer une requête au serveur en utilisant likesFilePath.
+    
+              // Nouvelle requête pour obtenir les likes de l'utilisateur connecté
+              fetch('/api/userlikes')
+                .then((response) => response.json())
+                .then((userLikesData) => {
+                  const userLikedBookIds = userLikesData.likedBookIds;
+    
+                  fetch('/api/allbookdata') // Utilisez la nouvelle route pour obtenir toutes les données des livres
+                    .then((response) => response.json())
+                    .then((books) => {
+                      const bookList = document.getElementById('book-list');
+    
+                      books.forEach((book) => {
+                        const card = document.createElement('div');
+                        card.className = 'card';
+    
+                        const image = document.createElement('div');
+                        image.className = 'image';
+                        const img = document.createElement('img');
+                        img.src = book.coverImage; // Chemin de l'image de couverture
+                        image.appendChild(img);
+                        card.appendChild(image);
+    
+                        const content = document.createElement('div');
+                        content.className = 'content';
+    
+                        const header = document.createElement('div');
+                        header.className = 'header';
+                        header.textContent = book.title;
+                        content.appendChild(header);
+    
+                        const author = document.createElement('div');
+                        author.className = 'author';
+                        author.textContent = 'Auteur: ' + book.author;
+                        content.appendChild(author);
+    
+                        const category = document.createElement('div');
+                        category.className = 'category';
+                        category.textContent = 'Catégorie: ' + book.category;
+                        content.appendChild(category);
+    
+                        const description = document.createElement('div');
+                        description.className = 'description';
+                        description.textContent = 'Description: ' + book.description;
+                        content.appendChild(description);
+    
+                        const tags = document.createElement('div');
+                        tags.className = 'tags';
+                        tags.textContent = 'Tags: ' + book.tags.join(', ');
+                        content.appendChild(tags);
+    
+                        const likes = document.createElement('div');
+                        likes.className = 'likes';
+                        const likeIcon = document.createElement('i');
+                        likeIcon.className = 'heart outline icon';
+                        likes.appendChild(likeIcon);
+                        likes.innerHTML += ` Likes: ${book.likes}`;
+    
+                        // Bouton "Lire"
+                        const readButton = document.createElement('button');
+                        readButton.textContent = 'Lire';
+                        readButton.className = 'ui primary button';
+                        readButton.addEventListener('click', () => {
+                           // Récupérez l'ID du livre sélectionné
+                        const bookId = book.id;
+
+                        // Redirigez l'utilisateur vers la page de lecture du livre avec le paramètre "book"
+                        window.location.href = `read.html?book=${bookId}`;
+
+                          
+                        });
+    
+                      // Bouton "Écrire un commentaire"
+                      const commentButton = document.createElement('button');
+                      commentButton.textContent = 'Écrire un commentaire';
+                      commentButton.className = 'ui secondary button';
+                      commentButton.addEventListener('click', () => {
+                        // Redirigez l'utilisateur vers la page de commentaires pour ce livre
+                        window.location.href = `/comments.html?bookId=${book.id}`;
+                      });
+    
+                        // Vérifiez si l'utilisateur a déjà aimé ce livre
+                        if (userLikedBookIds.includes(book.id)) {
+                          likeIcon.classList.remove('outline'); // Mettez en forme le cœur en rouge
+                        }
+    
+                        content.appendChild(likes);
+                        content.appendChild(readButton);
+                        content.appendChild(commentButton);
+    
+                        card.appendChild(content);
+    
+                        const extraContent = document.createElement('div');
+                        extraContent.className = 'extra content';
+    
+                        // Vérifiez si l'utilisateur est connecté en consultant le cookie 'isLoggedIn'
+                        const isLoggedIn = document.cookie.includes('isLoggedIn=true');
+    
+                        if (isLoggedIn) {
+                          likes.addEventListener('click', function () {
+                            // Récupérez l'ID du livre
+                            const bookId = book.id;
+    
+                            // Envoyez une requête au serveur pour enregistrer le "like" du livre
+                            fetch(`/api/likebook/${bookId}`, { method: 'POST', headers: { 'Likes-File-Path': likesFilePath } })
+                              .then((response) => response.json())
+                              .then((data) => {
+                                if (data.success) {
+                                  // Mettez à jour le compteur de likes sur la carte
+                                  likes.innerHTML = `<i class="heart icon red"></i> Likes: ${data.likes}`;
+                                  likeIcon.classList.remove('outline'); // Mettez en forme le cœur en rouge
+                                } else {
+                                  console.error('Erreur lors de la gestion du like :', data.error);
+                                }
+                              })
+                              .catch((error) => {
+                                console.error('Erreur lors de la gestion du like :', error);
+                              });
+                          });
+                        }
+    
+                        card.appendChild(extraContent);
+    
+                        bookList.appendChild(card);
+                      });
+                    })
+                    .catch((error) => {
+                      console.error('Erreur lors de la récupération des livres :', error);
+                    });
+                })
+                .catch((error) => {
+                  console.error('Erreur lors de la récupération des likes de l\'utilisateur :', error);
+                });
+            })
+            .catch((error) => {
+              console.error('Erreur lors de la récupération du chemin du fichier likes.json :', error);
+            });
+        }
+    
+        displayBooks();
+      });
+    </script>
+    
+  
+    
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="Semantic-UI-CSS-master/semantic.min.js"></script>
+</body>
+</html>
+
+
+
